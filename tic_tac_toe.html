@@ -1,7 +1,49 @@
 <script>
+    function game()
+    {
+        let userScore = 0, computerScore = 0;
+        for(let i = 0; i < 5; i++)
+        {
+            let userChoice = prompt('Rock, Paper, Scissors... Shoot!');
+            let computerChoice = computerPlay();
+
+            let gameResult = playRockPaperScissorsSingleRound(userChoice, computerChoice);
+
+            if(gameResult =='Win')
+            {
+                userScore++;
+                alert(`You win Round ${i + 1}! You: ${userScore} Computer: ${computerScore}`);
+            }
+            else if(gameResult == 'Lose')
+            {
+                computerScore++;
+                alert(`You lose Round ${i + 1}! You: ${userScore} Computer: ${computerScore}`);
+            }
+            else
+            {
+                alert(`Round ${i + 1} is a tie!`);
+            }
+        }
+        
+        if(userScore > computerScore)
+        {
+            alert(`You win! You: ${userScore} Computer: ${computerScore}`);
+        }
+        if(userScore < computerScore)
+        {
+            alert(`You lose! You: ${userScore} Computer: ${computerScore}`);
+        }
+        else
+        {
+            alert(`Tie game! You: ${userScore} Computer: ${computerScore}`);
+        }
+    }
+
     function computerPlay()
     {
-        let rockPaperScissorNum = Math.floor(Math.random() * 3);
+        let possibleOptions = ['Rock', 'Paper', 'Scissors'];
+        let numberOfPossibleOptions = possibleOptions.length;
+        let rockPaperScissorNum = Math.floor(Math.random() * numberOfPossibleOptions);
         switch(rockPaperScissorNum)
         {
             case 0:
@@ -16,5 +58,86 @@
             default:
                 break;
         }
+    }
+
+    function playRockPaperScissorsSingleRound(playerSelection, computerSelection)
+    {
+        if(areStringsEqual(playerSelection, computerSelection))
+        {
+            console.log(`Tie! ${capitalize(playerSelection)} ties ${computerSelection.toLowerCase()}.`);
+            ;
+        }
+        else if(playerSelection.toLowerCase() == 'rock')
+        {
+            return determineRockOutcome(computerSelection);
+        }
+        else if(playerSelection.toLowerCase() == 'paper')
+        {
+            return determinePaperOutcome(computerSelection);
+        }
+        else if(playerSelection.toLowerCase() == 'scissors')
+        {
+            return determineScissorsOutcome(computerSelection);
+        }
+    }
+
+    function areStringsEqual(primaryString, secondaryString)
+    {
+        if(primaryString.toLowerCase() == secondaryString.toLowerCase())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    function determineRockOutcome(opposingSelection)
+    {
+        let lowerCaseOpposingSelection = opposingSelection.toLowerCase();
+        if(lowerCaseOpposingSelection == 'paper')
+        {
+            console.log('Loser! Paper beats Rock.');
+            return 'Win';
+        }
+        else if(lowerCaseOpposingSelection == 'scissors')
+        {
+            console.log('Winner! Rock beats Scissors.');
+            return 'Lose';
+        }
+    }
+
+    function determinePaperOutcome(opposingSelection)
+    {
+        let lowerCaseOpposingSelection = opposingSelection.toLowerCase();
+        if(lowerCaseOpposingSelection == 'rock')
+        {
+            console.log('Winner! Paper beats Rock.');
+            return 'Win';
+        }
+        else if(lowerCaseOpposingSelection == 'scissors')
+        {
+            console.log('Loser! Scissors beat Paper.');
+            return 'Lose';
+        }
+    }
+
+    function determineScissorsOutcome(opposingSelection)
+    {
+        let lowerCaseOpposingSelection = opposingSelection.toLowerCase();
+        if(lowerCaseOpposingSelection == 'rock')
+        {
+            console.log('Loser! Rock beats Scissors.');
+            return 'Lose';
+        }
+        else if(lowerCaseOpposingSelection == 'paper')
+        {
+            console.log('Winner! Scissors beats Paper.');
+            return 'Win';
+        }
+    }
+
+    function capitalize(inputString) {
+        let lowerCaseString = inputString.toLowerCase();
+        let firstLetterUpperCase = lowerCaseString[0].toUpperCase();
+        return firstLetterUpperCase + lowerCaseString.slice(1);
     }
 </script>
